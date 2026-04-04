@@ -50,6 +50,54 @@ public class Solution {
         Arrays.sort(array2);
         return Arrays.equals(array1, array2);
     }
+
+    // Password strength: 20 points each for length 8–16, upper, lower, digit, special
+    public static String passwordStrength(String password) {
+        int score = 0;
+        List<String> issues = new ArrayList<>();
+        if (password.length() < 8) {
+            issues.add("Password is too short");
+        } else if (password.length() > 16) {
+            issues.add("Password is too long");
+        } else {
+            score += 20;
+        }
+        if (!password.matches(".*[A-Z].*")) {
+            issues.add("Password should contain at least one uppercase letter");
+        } else {
+            score += 20;
+        }
+        if (!password.matches(".*[a-z].*")) {
+            issues.add("Password should contain at least one lowercase letter");
+        } else {
+            score += 20;
+        }
+        if (!password.matches(".*[0-9].*")) {
+            issues.add("Password should contain at least one digit");
+        } else {
+            score += 20;
+        }
+        if (!password.matches(".*[!@#$%^&*()_+\\-=\\[\\]{}|;:,.<>?].*")) {
+            issues.add("Password should contain at least one special character");
+        } else {
+            score += 20;
+        }
+        for (String issue : issues) {
+            System.out.println(issue);
+        }
+        String label;
+        if (score <= 39) {
+            label = "Weak";
+        } else if (score <= 59) {
+            label = "Fair";
+        } else if (score <= 79) {
+            label = "Good";
+        } else {
+            label = "Strong";
+        }
+        return "Strength score: " + score + "/100 — " + label;
+    }
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int shift = 0;
@@ -73,6 +121,10 @@ public class Solution {
         System.out.print("Enter the string 2 for anagram: ");
         word2 = sc.nextLine();
         System.out.println(anagram(word, word2));
+        System.out.println();
+        System.out.print("Enter the password: ");
+        String password = sc.nextLine();
+        System.out.println(passwordStrength(password));
         sc.close();
     }
 }
